@@ -5,12 +5,12 @@ FROM openjdk:8u212-jre
 
 
 #IF you have a local copy of the spark gz then reference that as a COPY (which will automatically extract the files) it will
-#be a million times faster than ADD from url then extract. Comment out these two lines and uncomment "COPY ./blah"
+#be a million times faster than ADD from url then extract. Comment out these two lines and uncomment "ADD ./blah"
 
-ADD https://www-us.apache.org/dist/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz ~/
+ADD https://www-us.apache.org/dist/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz /tmp
 RUN tar xf /tmp/spark-2.4.3-bin-hadoop2.7.tgz -C /usr/local/
 
-#COPY ./spark-2.4.3-bin-hadoop2.7.tgz /tmp
+#ADD ./spark-2.4.3-bin-hadoop2.7.tgz /usr/local
 
 COPY --from=core /usr/share/dotnet /usr/share/dotnet
 CMD "ln -s /usr/share/dotnet/dotnet"
