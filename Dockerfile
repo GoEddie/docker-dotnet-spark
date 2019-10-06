@@ -35,3 +35,7 @@ RUN apt-get update
 RUN apt-get install git --assume-yes
 
 RUN dotnet --info
+
+# Create a log4j.properties file to get rid of annoying INFO messages in Spark.
+RUN cp /usr/local/spark-2.4.3-bin-hadoop2.7/conf/log4j.properties.template /usr/local/spark-2.4.3-bin-hadoop2.7/conf/log4j.properties
+RUN sed -i 's/log4j.rootCategory=INFO/log4j.rootCategory=WARN/g' /usr/local/spark-2.4.3-bin-hadoop2.7/conf/log4j.properties
