@@ -7,7 +7,7 @@ FROM openjdk:8u212-jre
 #IF you have a local copy of the spark gz then reference that as a COPY (which will automatically extract the files) it will
 #be a million times faster than ADD from url then extract. Comment out these two lines and uncomment "ADD ./blah"
 
-ADD https://www-us.apache.org/dist/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz /tmp
+ADD https://archive.apache.org/dist/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz /tmp
 RUN tar xf /tmp/spark-2.4.3-bin-hadoop2.7.tgz -C /usr/local/
 
 #ADD ./spark-2.4.3-bin-hadoop2.7.tgz /usr/local
@@ -35,3 +35,9 @@ RUN apt-get update
 RUN apt-get install git --assume-yes
 
 RUN dotnet --info
+
+COPY run_spark_dotnet_demo /root/run_spark_dotnet_demo
+
+# Create a log4j.properties file to get rid of annoying INFO messages in Spark.
+RUN cp /usr/local/spark-2.4.3-bin-hadoop2.7/conf/log4j.properties.template /usr/local/spark-2.4.3-bin-hadoop2.7/conf/log4j.properties
+RUN sed -i 's/log4j.rootCategory=INFO/log4j.rootCategory=WARN/g' /usr/local/spark-2.4.3-bin-hadoop2.7/conf/log4j.properties

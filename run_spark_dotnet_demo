@@ -1,0 +1,13 @@
+cd ~
+git clone https://github.com/feaselkl/Getting-Started-With-Apache-Spark/
+
+cd ~/Getting-Started-With-Apache-Spark/fsharp-spark-waitstats/
+dotnet restore --packages ./packages
+
+dotnet build
+
+spark-submit \
+	--class org.apache.spark.deploy.dotnet.DotnetRunner \
+	--master local \
+	~/Getting-Started-With-Apache-Spark/fsharp-spark-waitstats/packages/microsoft.spark/0.5.0/jars/microsoft-spark-2.4.x-0.5.0.jar \
+	dotnet run ~/Getting-Started-With-Apache-Spark/Data/WaitStats.csv
